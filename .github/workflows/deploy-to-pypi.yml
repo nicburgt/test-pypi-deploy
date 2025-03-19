@@ -5,8 +5,8 @@ on:
     types: [published] # Run when a new published release is detected.
 
 env:
-  BUILD-ARTIFACT-NAME: "poetry-build-dist"
-  REPOSITORY-PUSH-URL: "https://test.pypi.org/legacy/"
+  BUILD_ARTIFACT_NAME: "poetry-build-dist"
+  REPOSITORY_PUSH_URL: "https://test.pypi.org/legacy/"
 
 permissions:
   contents: read
@@ -16,7 +16,7 @@ jobs:
     uses: nicburgt/.github/.github/workflows/poetry-build.yml@55d84f57654037335247793b0d28450d2cb0b859
     with:
       version: ${{ github.event.release.tag_name }}
-      poetry-build-artifact-name: $BUILD-ARTIFACT-NAME
+      poetry-build-artifact-name: $BUILD_ARTIFACT_NAME
 
   # unfortunately, this step cannot be made into a reusable workflow (yet).
   # see https://github.com/pypi/warehouse/issues/11096.
@@ -38,10 +38,10 @@ jobs:
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4
         with:
-          name: $BUILD-ARTIFACT-NAME
+          name: $BUILD_ARTIFACT_NAME
           path: dist/
       - name: Publish release distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
-          repository-url: "https://test.pypi.org/legacy/"
+          repository-url: $REPOSITORY_PUSH_URL
