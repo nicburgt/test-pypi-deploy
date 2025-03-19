@@ -1,0 +1,15 @@
+[project]
+name = "testdeployofpypi"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Nick van der Burgt",email = "nvanderburgt@infiniot.nl"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4"
+dependencies = [
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
