@@ -7,6 +7,7 @@ on:
 env:
   BUILD_ARTIFACT_NAME: "poetry-build-dist"
   REPOSITORY_PUSH_URL: "https://test.pypi.org/legacy/"
+  REPOSITORY_URL: "https://test.pypi.org/p/testdeployofpypi"
 
 permissions:
   contents: read
@@ -33,7 +34,7 @@ jobs:
     # For more information, see: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/testdeployofpypi/${{ github.event.release.tag_name }}
+      url: ${{env.REPOSITORY_URL}}/${{ github.event.release.tag_name }}
     steps:
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4
@@ -44,4 +45,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
-          repository-url: $REPOSITORY_PUSH_URL
+          repository-url: ${{ env.REPOSITORY_PUSH_URL }}
