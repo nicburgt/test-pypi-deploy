@@ -1,7 +1,7 @@
 [project]
 name = "testdeployofpypi"
 version = "0.1.0"
-description = ""
+description = "Test package to test CD pipeline in github actions with trusted publisher."
 authors = [
     {name = "Nick van der Burgt",email = "nvanderburgt@infiniot.nl"}
 ]
@@ -9,6 +9,16 @@ readme = "README.md"
 requires-python = ">=3.12,<4"
 dependencies = [
 ]
+maintainers = [
+  {name = "Nick van der Burgt", email = "nvanderburgt@infiniot.nl"}
+]
+license = "MIT"
+keywords = ["test"]
+
+[project.urls]
+repository = "https://github.com/nicburgt/test-pypi-deploy"
+documentation = "https://github.com/nicburgt/test-pypi-deploy/tree/main/docs"
+"Bug Tracker" = "https://github.com/nicburgt/test-pypi-deploy/issues"
 
 [build-system]
 requires = ["setuptools>=61.0"]
