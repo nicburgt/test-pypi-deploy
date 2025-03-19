@@ -44,4 +44,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
-          repository-url: $REPOSITORY-PUSH-URL
+          repository-url: "https://test.pypi.org/legacy/"
