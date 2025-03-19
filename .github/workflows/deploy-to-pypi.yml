@@ -13,11 +13,11 @@ permissions:
   contents: read
 
 jobs:
-  # release-build-poetry:
-  #   uses: nicburgt/.github/.github/workflows/poetry-build.yml@55d84f57654037335247793b0d28450d2cb0b859
-  #   with:
-  #     version: ${{ github.event.release.tag_name }}
-  #     poetry-build-artifact-name: $BUILD-ARTIFACT-NAME
+  release-build-poetry:
+    uses: nicburgt/.github/.github/workflows/poetry-build.yml@55d84f57654037335247793b0d28450d2cb0b859
+    with:
+      version: ${{ github.event.release.tag_name }}
+      poetry-build-artifact-name: $BUILD-ARTIFACT-NAME
 
   # unfortunately, this step cannot be made into a reusable workflow (yet).
   # see https://github.com/pypi/warehouse/issues/11096.
@@ -27,8 +27,7 @@ jobs:
   # published under a user.
   pypi-publish:
     runs-on: ubuntu-latest
-    needs:
-      - release-build-poetry
+    needs: [release-build-poetry]
     permissions:
       id-token: write
     # Dedicated environments with protections for publishing are strongly recommended.
