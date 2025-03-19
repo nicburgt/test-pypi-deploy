@@ -1,53 +1,30 @@
-# TODO: Push to test pypi for testing purposes
-# Semver.
-# Github actions environment for publishing
-# https://test.pypi.org/manage/account/publishing/
-# https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-deployments/managing-environments-for-deployment
-# https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/#trusted-publishing
-  
-
-# This workflow will upload a Python Package to PyPI when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# Reusable workflows aanmaken.
-name: Publish to PyPi (Poetry)
+name: Publish to PyPi
 
 on:
   release:
     types: [published] # Run when a new published release is detected.
 
+env:
+  BUILD-ARTIFACT-NAME: "poetry-build-dist"
+  REPOSITORY-PUSH-URL: "https://test.pypi.org/legacy/"
+  REPOSITORY-URL: "https://test.pypi.org/p/testdeployofpypi"
+
 permissions:
   contents: read
 
 jobs:
-  release-build:
-    runs-on: ubuntu-latest
+  release-build-poetry:
+    uses: nicburgt/.github/.github/workflows/poetry-build.yml@55d84f57654037335247793b0d28450d2cb0b859
+    with:
+      version: ${{ github.event.release.tag_name }}
+      poetry-build-artifact-name: $BUILD-ARTIFACT-NAME
 
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: Build release distributions
-        run: |
-          pipx install poetry
-          poetry config virtualenvs.in-project true
-          poetry version ${{ github.event.release.tag_name }}
-          poetry build
-
-      - name: Upload distributions
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
+  # unfortunately, this step cannot be made into a reusable workflow (yet).
+  # see https://github.com/pypi/warehouse/issues/11096.
+  # We could use a global user + password combination to publish to pypi,
+  # but this is a lot less secure than a per repository OIDC token which expires
+  # And only grants access to a single repository, instead of all the repositories
+  # published under a user.
   pypi-publish:
     runs-on: ubuntu-latest
     needs:
@@ -58,22 +35,15 @@ jobs:
     # For more information, see: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/testdeployofpypi
-      # OPTIONAL: uncomment and update to include your PyPI project URL in the deployment status:
-      # url: https://pypi.org/p/YOURPROJECT
-      #
-      # ALTERNATIVE: if your GitHub Release name is the PyPI project version string
-      # ALTERNATIVE: exactly, uncomment the following line instead:
-      # url: https://pypi.org/project/YOURPROJECT/${{ github.event.release.name }}
+      url: $REPOSITORY-URL/${{ github.event.release.tag_name }}
     steps:
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4
         with:
-          name: release-dists
+          name: $BUILD-ARTIFACT-NAME
           path: dist/
-
       - name: Publish release distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
-          repository-url: https://test.pypi.org/legacy/
+          repository-url: $REPOSITORY-PUSH-URL
