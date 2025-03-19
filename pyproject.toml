@@ -10,9 +10,8 @@ requires-python = ">=3.12,<4"
 dependencies = [
 ]
 maintainers = [
-  {name = "Nick van der Burgt", email = "nvanderburgt@infiniot.nl"}
 ]
-license = "MIT"
+license = {text = "MIT"}
 keywords = ["test"]
 
 [project.urls]
