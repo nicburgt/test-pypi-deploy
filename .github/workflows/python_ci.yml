@@ -8,11 +8,11 @@ on:
 
 jobs:
   codeqa:
-    uses: nicburgt/.github/workflows/codeqa.yml@b69f174f740af324f6539ff1f212d82ca31813f4
+    uses: nicburgt/.github/.github/workflows/codeqa.yml@18d3b42583642bf014aaf29f9c98b663a0611a53
     with:
       python-version: ${{ inputs.python-version }}
   tests:
-    uses: nicburgt/.github/workflows/tests.yml@b69f174f740af324f6539ff1f212d82ca31813f4
+    uses: nicburgt/.github/.github/workflows/tests.yml@18d3b42583642bf014aaf29f9c98b663a0611a53
     with:
       python-version: ${{ inputs.python-version }}
       test-results-artifact-name: 'coverage-results'

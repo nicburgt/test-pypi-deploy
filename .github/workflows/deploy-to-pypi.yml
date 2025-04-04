@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   release-build-poetry:
-    uses: nicburgt/.github/workflows/poetry-build.yml@b69f174f740af324f6539ff1f212d82ca31813f4
+    uses: nicburgt/.github/.github/workflows/poetry-build.yml@18d3b42583642bf014aaf29f9c98b663a0611a53
     with:
       version: ${{ github.event.release.tag_name }}
       poetry-build-artifact-name: $BUILD_ARTIFACT_NAME
