@@ -11,11 +11,16 @@ env:
 
 jobs:
   codeqa:
+    strategy:
+      matrix: &python_matrix
+        python-version: [3.13]
     uses: nicburgt/.github/.github/workflows/codeqa.yml@18d3b42583642bf014aaf29f9c98b663a0611a53
     with:
-      python-version: $PYTHON_VERSION
+      python-version: ${{ matrix.python-version }}
   tests:
+    strategy:
+      matrix: *python_matrix
     uses: nicburgt/.github/.github/workflows/tests.yml@1a9e331a5321a9fc983c3a0993e1d842733e0de3
     with:
-      python-version: $PYTHON_VERSION
+      python-version: ${{ matrix.python-version }}
       test-results-artifact-name: 'coverage-results'
