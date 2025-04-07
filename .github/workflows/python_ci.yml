@@ -20,7 +20,7 @@ jobs:
       - run: echo "exposing environment variables as outputs"
   codeqa:
     needs: envvars
-    uses: nicburgt/.github/.github/workflows/codeqa.yml@80fc9feb1ea671c92d975f8a8059d8234587661d
+    uses: nicburgt/.github/.github/workflows/codeqa.yml@5eacc7f30ef36233b7ece1c260cf53eb99cacf2e
     with:
       python-version: ${{ needs.envvars.outputs.python_version }}
   tests:
