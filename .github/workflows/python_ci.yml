@@ -20,12 +20,12 @@ jobs:
       - run: echo "exposing environment variables as outputs"
   codeqa:
     needs: envvars
-    uses: nicburgt/.github/.github/workflows/codeqa.yml@680c0358029be09716fa8cde003fe255fe8ef538
+    uses: nicburgt/.github/.github/workflows/codeqa.yml@cf7ce658eb1d6d18204930286118b61af0932e45
     with:
       python-version: ${{ needs.envvars.outputs.python_version }}
   tests:
     needs: envvars
-    uses: nicburgt/.github/.github/workflows/tests.yml@680c0358029be09716fa8cde003fe255fe8ef538
+    uses: nicburgt/.github/.github/workflows/tests.yml@cf7ce658eb1d6d18204930286118b61af0932e45
     with:
       python-version: ${{ needs.envvars.outputs.python_version }}
       test-results-artifact-name: 'coverage-results'
