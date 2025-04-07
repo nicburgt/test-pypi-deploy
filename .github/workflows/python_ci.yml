@@ -6,18 +6,16 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  python_version: 3.13
+
 jobs:
   codeqa:
-    strategy:
-      matrix: &python_matrix
-        python-version: [3.13]
     uses: nicburgt/.github/.github/workflows/codeqa.yml@18d3b42583642bf014aaf29f9c98b663a0611a53
     with:
-      python-version: ${{ matrix.python-version }}
+      python-version: ${{ env.python_version }}
   tests:
-    strategy:
-      matrix: *python_matrix
     uses: nicburgt/.github/.github/workflows/tests.yml@1a9e331a5321a9fc983c3a0993e1d842733e0de3
     with:
-      python-version: ${{ matrix.python-version }}
+      python-version: ${{ env.python_version }}
       test-results-artifact-name: 'coverage-results'
